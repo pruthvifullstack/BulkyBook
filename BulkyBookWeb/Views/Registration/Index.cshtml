@@ -1,0 +1,79 @@
+﻿@model RegistrationViewModel
+@{
+    ViewData["Title"] = "Registration";
+}
+
+<form method="post" asp-controller="Registration" asp-action="Register" enctype="multipart/form-data">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Registration</h2>
+        </div>
+        <div asp-validation-summary="All"></div>
+        <div class="mb-3">
+            <div>
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <br />
+            <div>
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <br />
+            <div>
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <br />
+            <div>
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            @*image uploade*@
+            <!-- Add this inside the form -->
+            <div>
+                <label asp-for="ProfilePicture" class="form-label"></label>
+                <input asp-for="ProfilePicture" type="file" class="form-control" accept="image/*" onchange="previewImage(this)" />
+                <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+            </div>
+            <div>
+                <img id="previewImage" src="#" alt="Preview" style="max-width: 100px; max-height: 100px; display: none;" />
+            </div>
+            <br />
+            <div class="mt-2">
+                <button type="submit" class="btn btn-primary" style="width:150px">Register</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function previewImage(input) {
+
+            console.log('inside preview image!!!');
+            var preview = document.getElementById('previewImage');
+            var file = input.files[0];
+            console.log('file', file);
+
+            if (file) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '#';
+                preview.style.display = 'none';
+            }
+        }
+    </script>
+}
